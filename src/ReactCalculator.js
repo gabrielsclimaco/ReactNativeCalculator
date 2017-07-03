@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import {
   View,
+  Text,
   AppRegistry
 } from 'react-native'
 
@@ -19,10 +20,20 @@ const inputButtons = [
 
 class ReactCalculator extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      inputValue: 0
+    }
+  }
+
   render() {
     return (
       <View style={Style.rootContainer}>
-        <View style={Style.displayContainer}></View>
+        <View style={Style.displayContainer}>
+          <Text style={Style.displayText}>{this.state.inputValue}</Text>
+        </View>
         <View style={Style.inputContainer}>
           {this._renderInputButtons()}
         </View>
@@ -57,7 +68,21 @@ class ReactCalculator extends Component {
   }
 
   _onInputButtonPressed(input) {
-    console.log(input)
+    switch (typeof input) {
+      case 'number':
+        return this._handleNumberInput(input)
+        break
+      default:
+        // do nothing
+    }
+  }
+
+  _handleNumberInput(number) {
+    let inputValue = (this.state.inputValue * 10) + number
+
+    this.setState({
+      inputValue: inputValue
+    })
   }
 
 }

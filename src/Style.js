@@ -10,6 +10,14 @@ var Style = StyleSheet.create({
     backgroundColor: '#193441'
   },
 
+  displayText: {
+    color: 'white',
+    fontSize: 38,
+    fontWeight: 'bold',
+    textAlign: 'right',
+    padding: 20
+  },
+
   inputContainer: {
     flex: 8,
     backgroundColor: '#3E606F'
