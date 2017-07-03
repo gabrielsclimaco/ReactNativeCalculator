@@ -24,7 +24,9 @@ class ReactCalculator extends Component {
     super(props)
 
     this.state = {
-      inputValue: 0
+      previousInputValue: 0,
+      inputValue: 0,
+      selectedSymbol: null
     }
   }
 
@@ -41,7 +43,8 @@ class ReactCalculator extends Component {
     )
   }
 
-  // For each row in `inputButtons`, create a row View and add create an InputButton for each input in the row.
+  // For each row in `inputButtons`, create a row View and add create an
+  // InputButton for each input in the row.
   _renderInputButtons() {
     let views = []
 
@@ -55,13 +58,18 @@ class ReactCalculator extends Component {
         inputRow.push(
           <InputButton
             value={input}
+            highlight={this.state.selectedSymbol === input}
             onPress={this._onInputButtonPressed.bind(this, input)}
-            key={r + "-" + i}
+            key={r + '-' + i}
             />
         )
       }
 
-      views.push(<View style={Style.inputRow} key={"row-" + r}>{inputRow}</View>)
+      views.push(
+        <View style={Style.inputRow} key={'row-' + r}>
+          {inputRow}
+        </View>
+      )
     }
 
     return views
@@ -71,6 +79,9 @@ class ReactCalculator extends Component {
     switch (typeof input) {
       case 'number':
         return this._handleNumberInput(input)
+        break
+      case 'string':
+        return this._handleStringInput(input)
         break
       default:
         // do nothing
@@ -83,6 +94,38 @@ class ReactCalculator extends Component {
     this.setState({
       inputValue: inputValue
     })
+  }
+
+  _handleStringInput(string) {
+    switch (string) {
+      case '/':
+      case '*':
+      case '+':
+      case '-':
+        this.setState({
+          selectedSymbol: string,
+          previousInputValue: this.state.inputValue,
+          inputValue: 0
+        });
+        break;
+      case '=':
+        let symbol = this.state.selectedSymbol,
+            inputValue = this.state.inputValue,
+            previousInputValue = this.state.previousInputValue
+
+        if (!symbol) {
+          return
+        }
+
+        this.setState({
+          previousInputValue: 0,
+          inputValue: eval(previousInputValue + symbol + inputValue),
+          selectedSymbol: null
+        })
+        break
+      default:
+        // do nothing
+    }
   }
 
 }
