@@ -30,7 +30,6 @@ class ReactCalculator extends Component {
     )
   }
 
-
   // For each row in `inputButtons`, create a row View and add create an InputButton for each input in the row.
   _renderInputButtons() {
     let views = []
@@ -43,7 +42,11 @@ class ReactCalculator extends Component {
         let input = row[i]
 
         inputRow.push(
-          <InputButton value={input} key={r + "-" + i} />
+          <InputButton
+            value={input}
+            onPress={this._onInputButtonPressed.bind(this, input)}
+            key={r + "-" + i}
+            />
         )
       }
 
@@ -51,6 +54,10 @@ class ReactCalculator extends Component {
     }
 
     return views
+  }
+
+  _onInputButtonPressed(input) {
+    console.log(input)
   }
 
 }
