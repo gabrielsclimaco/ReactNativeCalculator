@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-
+import Style from './Style'
 import {
-    Text,
+    View,
     AppRegistry
 } from 'react-native'
 
@@ -9,7 +9,10 @@ class ReactCalculator extends Component {
 
     render() {
         return (
-            <Text>Hello, React!</Text>
+          <View style={Style.rootContainer}>
+              <View style={Style.displayContainer}></View>
+              <View style={Style.inputContainer}></View>
+          </View>
         )
     }
 
